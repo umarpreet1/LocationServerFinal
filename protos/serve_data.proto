@@ -1,0 +1,37 @@
+syntax = "proto2";
+
+package dataserver;
+
+message write_request{
+  required string ls_id = 3;
+  required string key = 1;
+  required string value = 2;
+  required string request_id = 4;
+}
+
+message lock_request{
+  required string ls_id = 1;
+  required string key = 2;
+  required string request_id = 3;
+}
+
+message read_request{
+  required string key = 1;
+}
+
+message response_read{
+  required string value = 1;
+}
+
+message response{
+  required string status = 1;
+  required string request_id = 2;
+  required string ds_id = 3;
+}
+
+service data_server{
+  rpc read(read_request) returns (response_read);
+  rpc write(write_request) returns (response);
+  rpc update(write_request) returns (response);
+  rpc lock(lock_request) returns (response);
+}
